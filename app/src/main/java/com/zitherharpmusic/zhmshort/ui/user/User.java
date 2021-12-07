@@ -67,7 +67,7 @@ public class User {
         String[] songIds = activity.getPreferences(Context.MODE_PRIVATE)
                 .getString(ACCOUNT_VIDEO, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
         for (String songId : songIds) {
-            for (Song song : DataProvider.getInstance().getSongs()) {
+            for (Song song : DataProvider.getSongs()) {
                 if (song.getId().equals(songId)) {
                     songs.add(song);
                 }
@@ -81,7 +81,7 @@ public class User {
         String[] videoIds = activity.getPreferences(Context.MODE_PRIVATE)
                 .getString(ACCOUNT_VIDEO, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
         for (String videoId : videoIds) {
-            for (Video video : DataProvider.getInstance().getVideos()) {
+            for (Video video : DataProvider.getVideos()) {
                 if (video.getId().equals(videoId)) {
                     videos.add(video);
                 }
@@ -95,7 +95,7 @@ public class User {
         String[] artistIds = activity.getPreferences(Context.MODE_PRIVATE)
                 .getString(ACCOUNT_ARTIST, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
         for (String artistId : artistIds) {
-            for (Artist artist : DataProvider.getInstance().getArtists()) {
+            for (Artist artist : DataProvider.getArtists()) {
                 if (artist.getId().equals(artistId)) {
                     artists.add(artist);
                 }

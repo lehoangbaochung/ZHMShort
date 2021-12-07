@@ -49,7 +49,7 @@ public class Video extends Music {
     public List<Artist> getArtists() {
         if (artists == null) {
             artists = new ArrayList<>();
-            for (Artist artist : DataProvider.getInstance().getArtists()) {
+            for (Artist artist : DataProvider.getArtists()) {
                 if (artist.getId().equals(artistId)) {
                     artists.add(artist);
                 }

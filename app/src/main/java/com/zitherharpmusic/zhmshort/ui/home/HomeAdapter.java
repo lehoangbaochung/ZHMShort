@@ -34,12 +34,12 @@ public class HomeAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         if (position == 0) {
             if (isLoggedIn) {
-                return VideoFullscreenFragment.newInstance(DataProvider.getInstance().getVideos());
+                return VideoFullscreenFragment.newInstance(DataProvider.getVideos());
             } else {
                 return new LoginFragment();
             }
         }
-        return VideoFullscreenFragment.newInstance(DataProvider.getInstance().getVideos());
+        return VideoFullscreenFragment.newInstance(DataProvider.getVideos());
     }
 
     @Override

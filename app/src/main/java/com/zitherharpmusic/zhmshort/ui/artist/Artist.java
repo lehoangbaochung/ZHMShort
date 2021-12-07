@@ -32,7 +32,7 @@ public class Artist extends Music {
     public List<Song> getSongs() {
         if (songs == null) {
             songs = new ArrayList<>();
-            for (Song song : DataProvider.getInstance().getSongs()) {
+            for (Song song : DataProvider.getSongs()) {
                 if (song.getArtists().contains(this)) {
                     songs.add(song);
                 }
@@ -44,7 +44,7 @@ public class Artist extends Music {
     public List<Video> getVideos() {
         if (videos == null) {
             videos = new ArrayList<>();
-            for (Video video : DataProvider.getInstance().getVideos()) {
+            for (Video video : DataProvider.getVideos()) {
                 if (video.getArtists().contains(this)) {
                     videos.add(video);
                 }

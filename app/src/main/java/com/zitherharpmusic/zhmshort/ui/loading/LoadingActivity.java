@@ -3,9 +3,6 @@ package com.zitherharpmusic.zhmshort.ui.loading;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.NetworkOnMainThreadException;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,8 +13,6 @@ import com.zitherharpmusic.zhmshort.MainActivity;
 import com.zitherharpmusic.zhmshort.R;
 import com.zitherharpmusic.zhmshort.data.DataProvider;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
-
-import org.json.JSONException;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -30,10 +25,10 @@ public class LoadingActivity extends AppCompatActivity {
 
     public void onLoad(View v) {
         if (MainUtils.isDeviceOnline(this)) {
-            new Thread(() -> {
-                DataProvider.getInstance();
+            AsyncTask.execute(() -> {
+                DataProvider.initialize();
                 startActivity(new Intent(this, MainActivity.class));
-            }).start();
+            });
         } else {
             Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
         }

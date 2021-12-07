@@ -22,7 +22,7 @@ public class Song extends Music {
         if (artists == null) {
             artists = new ArrayList<>();
             for (String artistId : artistIds.split(SPLIT_CHARACTER)) {
-                for (Artist artist : DataProvider.getInstance().getArtists()) {
+                for (Artist artist : DataProvider.getArtists()) {
                     if (artist.getId().equals(artistId)) {
                         artists.add(artist);
                     }

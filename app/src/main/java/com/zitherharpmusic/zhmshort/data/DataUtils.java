@@ -28,7 +28,7 @@ public class DataUtils {
 
     @Nullable
     public static Artist findArtist(String artistId) {
-        for (Artist artist : DataProvider.getInstance().getArtists()) {
+        for (Artist artist : DataProvider.getArtists()) {
             if (artist.getId().equals(artistId)) {
                 return artist;
             }
@@ -38,7 +38,7 @@ public class DataUtils {
 
     @Nullable
     public static Song findSong(String songId) {
-        for (Song song : DataProvider.getInstance().getSongs()) {
+        for (Song song : DataProvider.getSongs()) {
             if (song.getId().equals(songId)) {
                 return song;
             }
