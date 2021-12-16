@@ -17,8 +17,8 @@ public class Video extends Music {
     public static final int ARTIST_ID = 1;
     public static final int SONG_ID = 2;
 
-    public final String artistId;
-    public final String songId;
+    private final String artistIds;
+    private final String songIds;
     public int viewCount = 0;
     public int favouriteCount = 0;
     public int commentCount = 0;
@@ -26,18 +26,14 @@ public class Video extends Music {
     private List<Song> songs;
     private List<Artist> artists;
 
-    public Video(String id, String artistId, String songId) {
+    public Video(String id, String artistIds, String songIds) {
         this.id = id;
-        this.artistId = artistId;
-        this.songId = songId;
+        this.artistIds = artistIds;
+        this.songIds = songIds;
     }
 
-    public String getShareUrl() {
-        return "https://youtu.be/" + id;
-    }
-
-    public String getThumbnailUrl(@NonNull VideoThumbnail videoThumbnail) {
-        return String.format("https://i.ytimg.com/vi/%s/%s.jpg", id, videoThumbnail.name().toLowerCase());
+    public String getSongIds() {
+        return songIds;
     }
 
     public void setStatistics(int viewCount, int favouriteCount, int commentCount) {
@@ -50,8 +46,10 @@ public class Video extends Music {
         if (artists == null) {
             artists = new ArrayList<>();
             for (Artist artist : DataProvider.getArtists()) {
-                if (artist.getId().equals(artistId)) {
-                    artists.add(artist);
+                for (String artistId : artistIds.split(SPLIT_CHARACTER)) {
+                    if (artist.getId().equals(artistId)) {
+                        artists.add(artist);
+                    }
                 }
             }
         }
@@ -61,6 +59,14 @@ public class Video extends Music {
     public List<Song> getSongs() {
         if (songs == null) {
             songs = new ArrayList<>();
+            for (Song song : DataProvider.getSongs()) {
+                for (String songId : songIds.split(SPLIT_CHARACTER)) {
+                    if (song.getId().equals(songId)) {
+                        songs.add(song);
+                    }
+                }
+            }
+
         }
         return songs;
     }

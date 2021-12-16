@@ -1,4 +1,4 @@
-package com.zitherharpmusic.zhmshort.ui.artist;
+package com.zitherharpmusic.zhmshort.ui.song;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -9,42 +9,41 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zitherharpmusic.zhmshort.R;
+import com.zitherharpmusic.zhmshort.data.DataUtils;
 import com.zitherharpmusic.zhmshort.ui.empty.EmptyFragment;
-import com.zitherharpmusic.zhmshort.ui.item.ItemListFragment;
-import com.zitherharpmusic.zhmshort.ui.song.Song;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
 import com.zitherharpmusic.zhmshort.ui.video.VideoGridFragment;
 
 import java.util.List;
 
-public class ArtistAdapter extends FragmentStateAdapter {
+public class SongAdapter extends FragmentStateAdapter {
     private final FragmentActivity fragmentActivity;
     private final List<Song> songs;
     private final List<Video> videos;
 
-    public ArtistAdapter(@NonNull FragmentActivity fragmentActivity, Artist artist) {
+    public SongAdapter(@NonNull FragmentActivity fragmentActivity, Song song) {
         super(fragmentActivity);
         this.fragmentActivity = fragmentActivity;
-        songs = artist.getSongs();
-        videos = artist.getVideos();
+        this.songs = DataUtils.findRecommendSongs(song);
+        this.videos = song.getVideos();
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == 0) {
-            if (songs.size() > 0) {
-                return ItemListFragment.newInstance(songs);
-            } else {
-                return EmptyFragment.newInstance(fragmentActivity.getString(R.string.empty));
-            }
-        } else {
-            if (videos.size() > 0) {
-                return VideoGridFragment.newInstance(videos);
-            } else {
-                return EmptyFragment.newInstance(fragmentActivity.getString(R.string.empty));
-            }
+        switch (position) {
+            case 0:
+                if (songs.size() > 0) {
+                    return SongListFragment.newInstance(songs);
+                }
+                break;
+            case 1:
+                if (videos.size() > 0) {
+                    return VideoGridFragment.newInstance(videos);
+                }
+                break;
         }
+        return EmptyFragment.newInstance(fragmentActivity.getString(R.string.empty));
     }
 
     @Override
@@ -54,10 +53,13 @@ public class ArtistAdapter extends FragmentStateAdapter {
 
     public void attach(TabLayout tabLayout, ViewPager2 viewPager) {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            if (position == 0) {
-                tab.setText(fragmentActivity.getString(R.string.audios) + " " + songs.size());
-            } else {
-                tab.setText(fragmentActivity.getString(R.string.shorts) + " " + videos.size());
+            switch (position) {
+                case 0:
+                    tab.setText(fragmentActivity.getString(R.string.recommend) + " " + songs.size());
+                    break;
+                case 1:
+                    tab.setText(fragmentActivity.getString(R.string.use) + " " + videos.size());
+                    break;
             }
         }).attach();
         tabLayout.bringToFront();

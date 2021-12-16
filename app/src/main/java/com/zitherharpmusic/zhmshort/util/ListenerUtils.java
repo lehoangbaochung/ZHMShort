@@ -1,16 +1,19 @@
 package com.zitherharpmusic.zhmshort.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener;
-import com.zitherharpmusic.zhmshort.ui.artist.ArtistActivity;
-import com.zitherharpmusic.zhmshort.ui.video.Video;
-import com.zitherharpmusic.zhmshort.ui.video.VideoFullScreenActivity;
-import com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenFragment;
+import com.zitherharpmusic.zhmshort.data.Music;
+import com.zitherharpmusic.zhmshort.data.PhotoQuality;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +28,8 @@ public class ListenerUtils {
 
             @Override
             public void onStateChange(YouTubePlayer youTubePlayer, PlayerConstants.PlayerState playerState) {
-                if (playerState.equals(PlayerConstants.PlayerState.ENDED))  {
+                if (playerState.equals(PlayerConstants.PlayerState.ENDED) ||
+                    playerState.equals(PlayerConstants.PlayerState.UNSTARTED))  {
                     youTubePlayer.play();
                 }
             }
@@ -82,21 +86,30 @@ public class ListenerUtils {
         };
     }
 
-    public static View.OnClickListener launchArtistActivity(Context context, String artistId) {
+    public static View.OnClickListener launchActivity(Context context, Class<? extends Activity> cls,
+                                                      List<? extends Music> musics, int position) {
         return v -> {
-            Intent intent = new Intent(context, ArtistActivity.class);
-            intent.putExtra(ArtistActivity.class.getSimpleName(), artistId);
+            Intent intent = new Intent(context, cls);
+            Class<?>[] classes = cls.getClasses();
+            intent.putExtra(classes[0].getName(), (Serializable) musics);
+            intent.putExtra(classes[1].getName(), position);
             context.startActivity(intent);
         };
     }
 
-    public static View.OnClickListener launchVideoFullscreenActivity(Context context, List<Video> videos, int position) {
+    public static View.OnClickListener launchActivity(Context context, Class<? extends Activity> cls, Music music) {
         return v -> {
-            Intent intent = new Intent(context, VideoFullScreenActivity.class);
-            Class<?>[] classes = VideoFullScreenActivity.class.getClasses();
-            intent.putExtra(classes[0].getName(), (Serializable) videos);
-            intent.putExtra(classes[1].getName(), position);
+            Intent intent = new Intent(context, cls);
+            intent.putExtra(cls.getName(), music);
             context.startActivity(intent);
         };
+    }
+
+    public static void watchPhoto(FragmentActivity context, Music music) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        ImageView photoView = new ImageView(context);
+        MainUtils.loadImage(context, photoView, music.getPhotoUrl(PhotoQuality.LARGE));
+        ad.setView(photoView);
+        ad.show();
     }
 }

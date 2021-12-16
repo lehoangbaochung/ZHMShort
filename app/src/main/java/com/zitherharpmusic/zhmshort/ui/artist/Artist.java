@@ -21,10 +21,6 @@ public class Artist extends Music {
         this.id = id;
     }
 
-    public String getPhotoUrl(@NonNull ArtistPhoto artistPhoto) {
-        return String.format("https://y.qq.com/music/photo_new/T001R%sM000%s.jpg", artistPhoto.getSize(), id);
-    }
-
     public String getPlaylistUrl() {
         return "https://www.youtube.com/playlist?list=" + playlistId;
     }
@@ -33,8 +29,10 @@ public class Artist extends Music {
         if (songs == null) {
             songs = new ArrayList<>();
             for (Song song : DataProvider.getSongs()) {
-                if (song.getArtists().contains(this)) {
-                    songs.add(song);
+                for (Artist artist : song.getArtists()) {
+                    if (artist.getId().equals(id)) {
+                        songs.add(song);
+                    }
                 }
             }
         }
@@ -45,8 +43,10 @@ public class Artist extends Music {
         if (videos == null) {
             videos = new ArrayList<>();
             for (Video video : DataProvider.getVideos()) {
-                if (video.getArtists().contains(this)) {
-                    videos.add(video);
+                for (Artist artist : video.getArtists()) {
+                    if (artist.getId().equals(id)) {
+                        videos.add(video);
+                    }
                 }
             }
         }

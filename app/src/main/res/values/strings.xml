@@ -27,16 +27,20 @@
     <string name="videos">Video</string>
     <string name="audios">Audio</string>
 
+    <string name="use">Sử dụng</string>
+
     <string name="share">Chia sẻ</string>
     <string name="empty">Trống</string>
     <string name="login">Đăng nhập</string>
     <string name="login_by_google">Đăng nhập bằng Google</string>
+
     <string name="not_login">Bạn chưa đăng nhập\nHãy đăng nhập bằng tài khoản ZHC của bạn</string>
     <string name="no_connection">Không có kết nối</string>
+    <string name="no_notification">Không có thông báo</string>
+
     <string name="require_google_account">Ứng dụng này cần quyền truy cập vào tài khoản Google của bạn</string>
     <string name="require_google_play_service">Ứng dụng này yêu cầu phải có Dịch vụ của Google.
         Vui lòng cài đặt Dịch vụ của Google trên thiết bị của bạn và chạy lại ứng dụng!
     </string>
     <string name="empty_text">Vui lòng tải xuống ứng dụng Zither Harp Music: %1$s để xem thêm</string>
-
 </resources>

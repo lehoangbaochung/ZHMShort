@@ -7,41 +7,35 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.zitherharpmusic.zhmshort.MainActivity;
 import com.zitherharpmusic.zhmshort.R;
 
 public class UserFragment extends Fragment {
-    private User user;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        user = new User(requireActivity());
+        View view;
+        User user = ((MainActivity) requireActivity()).getUser();
         if (user.isLoggedIn()) {
-            return inflater.inflate(R.layout.fragment_user, container, false);
+            view = inflater.inflate(R.layout.fragment_user, container, false);
+            TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+            ViewPager2 viewPager = view.findViewById(R.id.view_pager);
+            UserAdapter userAdapter = new UserAdapter(this, user);
+            viewPager.setAdapter(userAdapter);
+            userAdapter.attach(tabLayout, viewPager);
+
+            TextView title = view.findViewById(R.id.title);
+            TextView subtitle = view.findViewById(R.id.subtitle);
+            title.setText(user.getName());
+            subtitle.setText(user.getId());
         } else {
-            return inflater.inflate(R.layout.fragment_login, container, false);
+            view = inflater.inflate(R.layout.fragment_login, container, false);
         }
+        return view;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        if (!user.isLoggedIn()) return;
-        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-        ViewPager2 viewPager = view.findViewById(R.id.view_pager);
-        UserAdapter userAdapter = new UserAdapter(this, user);
-        viewPager.setAdapter(userAdapter);
-        userAdapter.attach(tabLayout, viewPager);
-        // TODO: find views
-        TextView title = view.findViewById(R.id.title);
-        TextView subtitle = view.findViewById(R.id.subtitle);
-        title.setText(user.getName());
-        subtitle.setText(user.getId());
-    }
-
 }

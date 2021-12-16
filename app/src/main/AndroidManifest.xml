@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zitherharpmusic.zhmshort">
 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -13,11 +15,11 @@
         android:theme="@style/Theme.ZitherHarpMusicShort"
         tools:ignore="AllowBackup">
         <activity
-            android:name="com.zitherharpmusic.zhmshort.ui.artist.ArtistActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:name="com.zitherharpmusic.zhmshort.ui.song.SongActivity"/>
         <activity
-            android:name="com.zitherharpmusic.zhmshort.ui.video.VideoFullScreenActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:name="com.zitherharpmusic.zhmshort.ui.artist.ArtistActivity"/>
+        <activity
+            android:name="com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenActivity"/>
         <activity
             android:name="com.zitherharpmusic.zhmshort.MainActivity">
             <intent-filter>
@@ -25,8 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.zitherharpmusic.zhmshort.ui.loading.LoadingActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:name="com.zitherharpmusic.zhmshort.ui.loading.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

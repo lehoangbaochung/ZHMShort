@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.zitherharpmusic.zhmshort.data.DataProvider;
+import com.zitherharpmusic.zhmshort.data.Music;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.song.Song;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
+import com.zitherharpmusic.zhmshort.ui.video.VideoType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,10 @@ public class User {
 
     private final Activity activity;
     private SharedPreferences.Editor editor;
+
+    private List<Song> songs;
+    private List<Video> videos;
+    private List<Artist> artists;
 
     public User(Activity activity) {
         this.activity = activity;
@@ -63,13 +69,15 @@ public class User {
     }
 
     public List<Song> getSongs() {
-        List<Song> songs = new ArrayList<>();
-        String[] songIds = activity.getPreferences(Context.MODE_PRIVATE)
-                .getString(ACCOUNT_VIDEO, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
-        for (String songId : songIds) {
-            for (Song song : DataProvider.getSongs()) {
-                if (song.getId().equals(songId)) {
-                    songs.add(song);
+        if (songs == null) {
+            songs = new ArrayList<>();
+            String[] songIds = activity.getPreferences(Context.MODE_PRIVATE)
+                    .getString(ACCOUNT_SONG, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
+            for (String songId : songIds) {
+                for (Song song : DataProvider.getSongs()) {
+                    if (song.getId().equals(songId)) {
+                        songs.add(song);
+                    }
                 }
             }
         }
@@ -77,13 +85,15 @@ public class User {
     }
 
     public List<Video> getVideos() {
-        List<Video> videos = new ArrayList<>();
-        String[] videoIds = activity.getPreferences(Context.MODE_PRIVATE)
-                .getString(ACCOUNT_VIDEO, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
-        for (String videoId : videoIds) {
-            for (Video video : DataProvider.getVideos()) {
-                if (video.getId().equals(videoId)) {
-                    videos.add(video);
+        if (videos == null) {
+            videos = new ArrayList<>();
+            String[] videoIds = activity.getPreferences(Context.MODE_PRIVATE)
+                    .getString(ACCOUNT_VIDEO, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
+            for (String videoId : videoIds) {
+                for (Video video : DataProvider.getVideos()) {
+                    if (video.getId().equals(videoId)) {
+                        videos.add(video);
+                    }
                 }
             }
         }
@@ -91,13 +101,15 @@ public class User {
     }
 
     public List<Artist> getArtists() {
-        List<Artist> artists = new ArrayList<>();
-        String[] artistIds = activity.getPreferences(Context.MODE_PRIVATE)
-                .getString(ACCOUNT_ARTIST, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
-        for (String artistId : artistIds) {
-            for (Artist artist : DataProvider.getArtists()) {
-                if (artist.getId().equals(artistId)) {
-                    artists.add(artist);
+        if (artists == null) {
+            artists = new ArrayList<>();
+            String[] artistIds = activity.getPreferences(Context.MODE_PRIVATE)
+                    .getString(ACCOUNT_ARTIST, EMPTY_CHARACTER).split(SPLIT_CHARACTER);
+            for (String artistId : artistIds) {
+                for (Artist artist : DataProvider.getArtists()) {
+                    if (artist.getId().equals(artistId)) {
+                        artists.add(artist);
+                    }
                 }
             }
         }

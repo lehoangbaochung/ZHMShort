@@ -12,7 +12,6 @@
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:enableAutomaticInitialization="true"
         app:showFullScreenButton="false"
         app:showYouTubeButton="false"
         app:showSeekBar="false"
@@ -37,24 +36,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/artist_name"
-                android:padding="10dp"
+                android:singleLine="true"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
+                android:textStyle="bold"
                 android:textColor="@color/teal_200"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/video_name"
-                android:padding="10dp"
+                android:singleLine="true"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:textColor="@color/white"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/song_name"
-                android:padding="10dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:singleLine="true"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit ="marquee_forever"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scrollHorizontally="true"

@@ -1,4 +1,4 @@
-package com.zitherharpmusic.zhmshort.ui.video;
+package com.zitherharpmusic.zhmshort.ui.item;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +11,22 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
+import com.zitherharpmusic.zhmshort.data.Music;
 import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.ui.video.Video;
+import com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenActivity;
 import com.zitherharpmusic.zhmshort.util.ListenerUtils;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
 
 import java.util.List;
 
-public class VideoGridAdapter extends RecyclerView.Adapter<VideoGridAdapter.ViewHolder> {
+public class ItemGridAdapter extends RecyclerView.Adapter<ItemGridAdapter.ViewHolder> {
     private final FragmentActivity context;
-    private final List<Video> videos;
+    private final List<? extends Music> musics;
 
-    public VideoGridAdapter(FragmentActivity context, List<Video> videos) {
+    public ItemGridAdapter(FragmentActivity context, List<? extends Music> musics) {
         this.context = context;
-        this.videos = videos;
+        this.musics = musics;
     }
 
     @NonNull
@@ -35,15 +38,17 @@ public class VideoGridAdapter extends RecyclerView.Adapter<VideoGridAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Video video = videos.get(position);
-        holder.viewCount.setText(video.getFavouriteCountToString());
-        MainUtils.loadImage(context, holder.thumbnail, video.getPhotoUrl(PhotoQuality.HQDEFAULT));
-        holder.thumbnail.setOnClickListener(ListenerUtils.launchActivity(context, VideoFullscreenActivity.class, videos, position));
+        Music music = musics.get(position);
+        if (music instanceof Video) {
+            MainUtils.loadImage(context, holder.thumbnail, music.getPhotoUrl(PhotoQuality.HQDEFAULT));
+            holder.viewCount.setText(((Video) music).getFavouriteCountToString());
+            holder.thumbnail.setOnClickListener(ListenerUtils.launchActivity(context, VideoFullscreenActivity.class, musics, position));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return videos.size();
+        return musics.size();
     }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {

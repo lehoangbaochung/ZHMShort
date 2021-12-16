@@ -1,4 +1,4 @@
-package com.zitherharpmusic.zhmshort.ui.user;
+package com.zitherharpmusic.zhmshort.ui.artist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,17 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
 
-public class UserListFragment extends Fragment {
-    @Nullable
+import java.util.List;
+
+public class ArtistListFragment extends Fragment {
+    private static List<Artist> artists;
+
+    public static ArtistListFragment newInstance(List<Artist> artists) {
+        ArtistListFragment.artists = artists;
+        return new ArtistListFragment();
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_song_list, container, false);
+        return inflater.inflate(R.layout.fragment_video_grid, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        RecyclerView videoList = view.findViewById(R.id.recycler_view);
-        videoList.setHasFixedSize(true);
-        videoList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setAdapter(new ArtistListAdapter(getActivity(), artists));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

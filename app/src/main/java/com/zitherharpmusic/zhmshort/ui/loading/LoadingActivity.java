@@ -15,20 +15,25 @@ import com.zitherharpmusic.zhmshort.data.DataProvider;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
 
 public class LoadingActivity extends AppCompatActivity {
+    private boolean isLoaded = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+        getSupportActionBar().hide();
         onLoad(getCurrentFocus());
     }
 
     public void onLoad(View v) {
         if (MainUtils.isDeviceOnline(this)) {
-            AsyncTask.execute(() -> {
-                DataProvider.initialize();
-                startActivity(new Intent(this, MainActivity.class));
-            });
+            if (!isLoaded) {
+                isLoaded = true;
+                AsyncTask.execute(() -> {
+                    DataProvider.initialize();
+                    startActivity(new Intent(this, MainActivity.class));
+                });
+            }
         } else {
             Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
         }

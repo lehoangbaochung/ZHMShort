@@ -11,9 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenFragment;
-
-import java.io.Serializable;
 
 public class EmptyFragment extends Fragment {
 
@@ -34,7 +31,7 @@ public class EmptyFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TextView text = view.findViewById(R.id.text);
-        text.setText(getArguments().getString(EmptyFragment.class.getName()));
+        TextView textView = view.findViewById(R.id.empty);
+        textView.setText(getArguments().getString(EmptyFragment.class.getName()));
     }
 }

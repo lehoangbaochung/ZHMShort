@@ -1,4 +1,4 @@
-package com.zitherharpmusic.zhmshort.ui.video;
+package com.zitherharpmusic.zhmshort.ui.item;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,19 +8,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
+import com.zitherharpmusic.zhmshort.data.Music;
 
 import java.util.List;
 
-public class VideoGridFragment extends Fragment {
-    private static List<Video> videos;
+public class ItemListFragment extends Fragment {
+    private static List<? extends Music> musics;
 
-    public static VideoGridFragment newInstance(List<Video> videos) {
-        VideoGridFragment.videos = videos;
-        return new VideoGridFragment();
+    public static ItemListFragment newInstance(List<? extends Music> musics) {
+        ItemListFragment.musics = musics;
+        return new ItemListFragment();
     }
 
     @Override
@@ -31,7 +32,7 @@ public class VideoGridFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(new VideoGridAdapter(getActivity(), videos));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView.setAdapter(new ItemListAdapter(getActivity(), musics));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

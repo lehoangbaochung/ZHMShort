@@ -9,37 +9,55 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zitherharpmusic.zhmshort.R;
 import com.zitherharpmusic.zhmshort.data.DataProvider;
-import com.zitherharpmusic.zhmshort.data.DataUtils;
+import com.zitherharpmusic.zhmshort.ui.artist.Artist;
+import com.zitherharpmusic.zhmshort.ui.empty.EmptyFragment;
 import com.zitherharpmusic.zhmshort.ui.login.LoginFragment;
 import com.zitherharpmusic.zhmshort.ui.user.User;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
 import com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenFragment;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class HomeAdapter extends FragmentStateAdapter {
-    private final Fragment context;
-    private final boolean isLoggedIn;
-    private List<Video> recommendVideos;
+    private final Fragment fragment;
+    private final User user;
+    private List<Video> videos;
 
     public HomeAdapter(@NonNull Fragment fragment, User user) {
         super(fragment);
-        context = fragment;
-        isLoggedIn = user.isLoggedIn();
+        this.fragment = fragment;
+        this.user = user;
+        videos = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == 0) {
-            if (isLoggedIn) {
-                return VideoFullscreenFragment.newInstance(DataProvider.getVideos());
-            } else {
-                return new LoginFragment();
-            }
+        switch (position) {
+            case 0:
+                if (user.isLoggedIn()) {
+                    for (Artist artist : user.getArtists()) {
+                        videos.addAll(artist.getVideos());
+                    }
+                } else {
+                    return new LoginFragment();
+                }
+                break;
+            case 1:
+                videos = DataProvider.getVideos();
+                break;
+            case 2:
+                videos = DataProvider.getVideos();
+                Collections.shuffle(videos);
+                break;
         }
-        return VideoFullscreenFragment.newInstance(DataProvider.getVideos());
+        if (videos.size() > 0) {
+            return VideoFullscreenFragment.newInstance(videos);
+        } else {
+            return EmptyFragment.newInstance(fragment.getString(R.string.empty));
+        }
     }
 
     @Override
@@ -50,14 +68,14 @@ public class HomeAdapter extends FragmentStateAdapter {
     public void attach(TabLayout tabLayout, ViewPager2 viewPager) {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0) {
-                tab.setText(context.getString(R.string.following));
+                tab.setText(fragment.getString(R.string.following));
             } else if (position == 1) {
-                tab.select();
-                tab.setText(context.getString(R.string.recommend));
+                tab.setText(fragment.getString(R.string.recommend));
             } else {
-                tab.setText(context.getString(R.string.recent));
+                tab.setText(fragment.getString(R.string.recent));
             }
         }).attach();
         tabLayout.bringToFront();
+        tabLayout.getTabAt(1).select();
     }
 }
