@@ -11,8 +11,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.Language;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.util.ListenerUtils;
+import com.zitherharpmusic.zhmshort.util.MainUtils;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
         holder.title.setText(song.getName(Language.VIETNAMESE));
         holder.subtitle.setText(song.getName(Language.SIMPLIFIED_CHINESE));
         holder.itemView.setOnClickListener(ListenerUtils.launchActivity(fragmentActivity, SongActivity.class, song));
+        MainUtils.loadImage(fragmentActivity, holder.photo, song.getPhotoUrl(PhotoQuality.MQDEFAULT));
     }
 
     @Override

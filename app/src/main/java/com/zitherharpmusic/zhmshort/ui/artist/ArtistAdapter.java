@@ -10,8 +10,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zitherharpmusic.zhmshort.R;
 import com.zitherharpmusic.zhmshort.ui.empty.EmptyFragment;
-import com.zitherharpmusic.zhmshort.ui.item.ItemListFragment;
 import com.zitherharpmusic.zhmshort.ui.song.Song;
+import com.zitherharpmusic.zhmshort.ui.song.SongListFragment;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
 import com.zitherharpmusic.zhmshort.ui.video.VideoGridFragment;
 
@@ -32,19 +32,11 @@ public class ArtistAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == 0) {
-            if (songs.size() > 0) {
-                return ItemListFragment.newInstance(songs);
-            } else {
-                return EmptyFragment.newInstance(fragmentActivity.getString(R.string.empty));
-            }
-        } else {
-            if (videos.size() > 0) {
-                return VideoGridFragment.newInstance(videos);
-            } else {
-                return EmptyFragment.newInstance(fragmentActivity.getString(R.string.empty));
-            }
+        switch (position) {
+            case 0: if (songs.size() > 0) return SongListFragment.newInstance(songs); break;
+            case 1: if (videos.size() > 0) return VideoGridFragment.newInstance(videos); break;
         }
+        return EmptyFragment.newInstance(fragmentActivity.getString(R.string.empty));
     }
 
     @Override
@@ -54,10 +46,12 @@ public class ArtistAdapter extends FragmentStateAdapter {
 
     public void attach(TabLayout tabLayout, ViewPager2 viewPager) {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            if (position == 0) {
-                tab.setText(fragmentActivity.getString(R.string.audios) + " " + songs.size());
-            } else {
-                tab.setText(fragmentActivity.getString(R.string.shorts) + " " + videos.size());
+            switch (position) {
+                case 0:
+                    tab.setText(fragmentActivity.getString(R.string.audios) + " " + songs.size());
+                    break;
+                case 1:
+                    tab.setText(fragmentActivity.getString(R.string.shorts) + " " + videos.size());
             }
         }).attach();
         tabLayout.bringToFront();

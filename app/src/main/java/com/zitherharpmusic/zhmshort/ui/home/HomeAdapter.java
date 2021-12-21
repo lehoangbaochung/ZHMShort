@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.DataProvider;
+import com.zitherharpmusic.zhmshort.music.MusicProvider;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.empty.EmptyFragment;
 import com.zitherharpmusic.zhmshort.ui.login.LoginFragment;
@@ -19,6 +19,7 @@ import com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class HomeAdapter extends FragmentStateAdapter {
     private final Fragment fragment;
@@ -45,12 +46,12 @@ public class HomeAdapter extends FragmentStateAdapter {
                     return new LoginFragment();
                 }
                 break;
-            case 1:
-                videos = DataProvider.getVideos();
-                break;
             case 2:
-                videos = DataProvider.getVideos();
+                videos = MusicProvider.getVideos();
                 Collections.shuffle(videos);
+                break;
+            case 1:
+                videos = MusicProvider.getVideos();
                 break;
         }
         if (videos.size() > 0) {
@@ -68,7 +69,7 @@ public class HomeAdapter extends FragmentStateAdapter {
     public void attach(TabLayout tabLayout, ViewPager2 viewPager) {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0) {
-                tab.setText(fragment.getString(R.string.following));
+                tab.setText(fragment.getString(R.string.follow));
             } else if (position == 1) {
                 tab.setText(fragment.getString(R.string.recommend));
             } else {

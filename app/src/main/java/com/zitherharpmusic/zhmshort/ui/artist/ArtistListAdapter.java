@@ -11,8 +11,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.Language;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.util.ListenerUtils;
+import com.zitherharpmusic.zhmshort.util.MainUtils;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_song_list, parent, false));
+                .inflate(R.layout.item_artist_list, parent, false));
     }
 
     @Override
@@ -38,6 +40,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
         holder.title.setText(artist.getName(Language.VIETNAMESE));
         holder.subtitle.setText(artist.getName(Language.SIMPLIFIED_CHINESE));
         holder.itemView.setOnClickListener(ListenerUtils.launchActivity(fragmentActivity, ArtistActivity.class, artist));
+        MainUtils.loadImage(fragmentActivity, holder.photo, artist.getPhotoUrl(PhotoQuality.SMALL));
     }
 
     @Override

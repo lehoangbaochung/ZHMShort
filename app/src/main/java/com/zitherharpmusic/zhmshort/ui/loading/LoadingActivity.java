@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.zitherharpmusic.zhmshort.MainActivity;
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.DataProvider;
+import com.zitherharpmusic.zhmshort.music.MusicProvider;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
 
 public class LoadingActivity extends AppCompatActivity {
@@ -30,7 +30,7 @@ public class LoadingActivity extends AppCompatActivity {
             if (!isLoaded) {
                 isLoaded = true;
                 AsyncTask.execute(() -> {
-                    DataProvider.initialize();
+                    MusicProvider.initialize();
                     startActivity(new Intent(this, MainActivity.class));
                 });
             }

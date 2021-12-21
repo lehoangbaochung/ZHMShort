@@ -1,15 +1,10 @@
 package com.zitherharpmusic.zhmshort.ui.video;
 
-import androidx.annotation.NonNull;
-
-import com.zitherharpmusic.zhmshort.data.DataProvider;
-import com.zitherharpmusic.zhmshort.data.Music;
+import com.zitherharpmusic.zhmshort.music.MusicProvider;
+import com.zitherharpmusic.zhmshort.music.Music;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.song.Song;
 
-import org.json.JSONException;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +40,7 @@ public class Video extends Music {
     public List<Artist> getArtists() {
         if (artists == null) {
             artists = new ArrayList<>();
-            for (Artist artist : DataProvider.getArtists()) {
+            for (Artist artist : MusicProvider.getArtists()) {
                 for (String artistId : artistIds.split(SPLIT_CHARACTER)) {
                     if (artist.getId().equals(artistId)) {
                         artists.add(artist);
@@ -59,7 +54,7 @@ public class Video extends Music {
     public List<Song> getSongs() {
         if (songs == null) {
             songs = new ArrayList<>();
-            for (Song song : DataProvider.getSongs()) {
+            for (Song song : MusicProvider.getSongs()) {
                 for (String songId : songIds.split(SPLIT_CHARACTER)) {
                     if (song.getId().equals(songId)) {
                         songs.add(song);

@@ -1,31 +1,25 @@
 package com.zitherharpmusic.zhmshort.ui.video;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController;
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.Language;
-import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.MusicUtils;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.artist.ArtistActivity;
+import com.zitherharpmusic.zhmshort.ui.artist.ArtistListDialog;
 import com.zitherharpmusic.zhmshort.ui.song.Song;
 import com.zitherharpmusic.zhmshort.ui.song.SongActivity;
 import com.zitherharpmusic.zhmshort.util.ListenerUtils;
@@ -51,43 +45,43 @@ public class VideoFullscreenAdapter extends RecyclerView.Adapter<VideoFullscreen
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // TODO: Video
         Video video = videos.get(position);
+        holder.videoName.setText(video.getName(Language.VIETNAMESE));
+        holder.shareButton.setOnClickListener(ListenerUtils.launchShareIntent(context, video.getShareUrl()));
+        holder.videoView.getYouTubePlayerWhenReady(youTubePlayer -> {
+            youTubePlayer.loadVideo(video.getId(), 0);
+            youTubePlayer.pause();
+            youTubePlayer.addListener(ListenerUtils.requireYoutubePlayerListener(video.getId()));
+        });
+        holder.favouriteCount.setText(video.getFavouriteCountToString());
+        holder.commentCount.setText(video.getCommentCountToString());
+        // TODO: Artist
+        List<Artist> artists = video.getArtists();
         if (video.getArtists().size() == 0) {
             Toast.makeText(context, video.getId(), Toast.LENGTH_SHORT).show();
             return;
+        } else {
+            MainUtils.loadImage(context, holder.artistImage, artists.get(0).getPhotoUrl(PhotoQuality.SMALL));
+            holder.artistName.setText(MusicUtils.getNames(artists, Language.VIETNAMESE));
+            if (artists.size() == 1) {
+                Artist artist = artists.get(0);
+                holder.artistImage.setOnClickListener(ListenerUtils.launchActivity(context, ArtistActivity.class, artist));
+                holder.artistName.setOnClickListener(ListenerUtils.launchActivity(context, ArtistActivity.class, artist));
+            } else {
+                View.OnClickListener showArtistDialog = v ->
+                        ArtistListDialog.newInstance(artists).show(context.getSupportFragmentManager(), "?");
+                holder.artistImage.setOnClickListener(showArtistDialog);
+                holder.artistName.setOnClickListener(showArtistDialog);
+            }
         }
-        Artist artist = video.getArtists().get(0);
-        holder.videoName.setText(video.getName(Language.VIETNAMESE));
-        holder.artistName.setText(String.format("@%s", artist.getName(Language.VIETNAMESE)));
-        holder.artistName.setOnClickListener(ListenerUtils.launchActivity(context, ArtistActivity.class, artist));
-
+        // TODO: Song
         holder.songName.setSelected(true);
         List<Song> songs = video.getSongs();
         if (songs.size() > 0) {
             holder.songName.setText(songs.get(0).toString(Language.VIETNAMESE));
             holder.songName.setOnClickListener(ListenerUtils.launchActivity(context, SongActivity.class, songs.get(0)));
         }
-//        holder.videoView.setOnFocusChangeListener((v, hasFocus) -> {
-//            holder.videoView.getYouTubePlayerWhenReady(youTubePlayer -> {
-//                youTubePlayer.loadVideo(video.getId(), 0);
-//                if (hasFocus) {
-//                    Toast.makeText(context, "Chạm", Toast.LENGTH_SHORT).show();
-//                    youTubePlayer.play();
-//                } else {
-//                    Toast.makeText(context, "hết chạm", Toast.LENGTH_SHORT).show();
-//                    youTubePlayer.pause();
-//                }
-//            });
-//        });
-        //holder.videoView.requestFocusFromTouch();
-        //holder.videoView.getOnFocusChangeListener().onFocusChange(holder.videoView, true);
-        holder.videoView.addYouTubePlayerListener(ListenerUtils.requireYoutubePlayerListener(video.getId()));
-        holder.favouriteCount.setText(video.getFavouriteCountToString());
-        holder.commentCount.setText(video.getCommentCountToString());
-
-        holder.artistImage.setOnClickListener(ListenerUtils.launchActivity(context, ArtistActivity.class, video.getArtists().get(0)));
-        MainUtils.loadImage(context, holder.artistImage, artist.getPhotoUrl(PhotoQuality.SMALL));
-        holder.shareButton.setOnClickListener(ListenerUtils.launchShareIntent(context, video.getShareUrl()));
     }
     @Override
     public int getItemCount() {

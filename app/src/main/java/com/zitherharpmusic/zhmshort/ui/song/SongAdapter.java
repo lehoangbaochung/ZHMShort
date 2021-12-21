@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.DataUtils;
+import com.zitherharpmusic.zhmshort.music.MusicUtils;
 import com.zitherharpmusic.zhmshort.ui.empty.EmptyFragment;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
 import com.zitherharpmusic.zhmshort.ui.video.VideoGridFragment;
@@ -24,7 +24,7 @@ public class SongAdapter extends FragmentStateAdapter {
     public SongAdapter(@NonNull FragmentActivity fragmentActivity, Song song) {
         super(fragmentActivity);
         this.fragmentActivity = fragmentActivity;
-        this.songs = DataUtils.findRecommendSongs(song);
+        this.songs = MusicUtils.findRecommendSongs(song);
         this.videos = song.getVideos();
     }
 

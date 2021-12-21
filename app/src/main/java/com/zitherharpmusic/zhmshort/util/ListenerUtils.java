@@ -1,10 +1,13 @@
 package com.zitherharpmusic.zhmshort.util;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
@@ -12,8 +15,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener;
-import com.zitherharpmusic.zhmshort.data.Music;
-import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.music.Music;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,13 +26,12 @@ public class ListenerUtils {
         return new YouTubePlayerListener() {
             @Override
             public void onReady(YouTubePlayer youTubePlayer) {
-                youTubePlayer.loadVideo(videoId, 0);
+
             }
 
             @Override
             public void onStateChange(YouTubePlayer youTubePlayer, PlayerConstants.PlayerState playerState) {
-                if (playerState.equals(PlayerConstants.PlayerState.ENDED) ||
-                    playerState.equals(PlayerConstants.PlayerState.UNSTARTED))  {
+                if (playerState.equals(PlayerConstants.PlayerState.ENDED)) {
                     youTubePlayer.play();
                 }
             }
@@ -111,5 +113,14 @@ public class ListenerUtils {
         MainUtils.loadImage(context, photoView, music.getPhotoUrl(PhotoQuality.LARGE));
         ad.setView(photoView);
         ad.show();
+    }
+
+    public static View.OnClickListener copyToClipboard(Context context, String text) {
+        return v -> {
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText(context.getPackageName(), text);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(context, "Sao chép thành công", Toast.LENGTH_SHORT).show();
+        };
     }
 }

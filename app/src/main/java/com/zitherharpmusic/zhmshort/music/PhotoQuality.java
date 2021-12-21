@@ -1,4 +1,4 @@
-package com.zitherharpmusic.zhmshort.data;
+package com.zitherharpmusic.zhmshort.music;
 
 public enum PhotoQuality {
     DEFAULT("120x90"),

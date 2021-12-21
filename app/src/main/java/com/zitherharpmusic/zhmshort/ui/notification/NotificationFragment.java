@@ -39,7 +39,6 @@ public class NotificationFragment extends Fragment {
         if (user.isLoggedIn()) {
             if (user.getArtists().size() > 0) {
                 RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-                recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 recyclerView.setAdapter(new NotificationAdapter(this, user));
             } else {

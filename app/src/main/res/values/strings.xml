@@ -17,7 +17,7 @@
     <string name="recent">Gần đây</string>
     <string name="favourite">Yêu thích</string>
     <string name="follow">Theo dõi</string>
-    <string name="following">Theo dõi</string>
+    <string name="unfollow">Bỏ theo dõi</string>
     <string name="follower">Người theo dõi</string>
     <string name="loading">Đang tải</string>
     <string name="reload">Tải lại</string>
@@ -26,13 +26,11 @@
     <string name="shorts">Short</string>
     <string name="videos">Video</string>
     <string name="audios">Audio</string>
-
     <string name="use">Sử dụng</string>
-
     <string name="share">Chia sẻ</string>
     <string name="empty">Trống</string>
     <string name="login">Đăng nhập</string>
-    <string name="login_by_google">Đăng nhập bằng Google</string>
+    <string name="login_by_google">Do Zither Harp Music tự động tạo</string>
 
     <string name="not_login">Bạn chưa đăng nhập\nHãy đăng nhập bằng tài khoản ZHC của bạn</string>
     <string name="no_connection">Không có kết nối</string>

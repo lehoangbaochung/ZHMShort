@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment {
                 if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
                     String accountName = result.getData().getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
-                        user.logIn(accountName);
+                        //user.logIn(accountName);
                     }
                 }
             });
@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment {
                         .setAllowableAccountsTypes(Collections.singletonList("com.google"))
                         .build()));
             } else {
-                Toast.makeText(context, "Đã đăng nhập thành công với tài khoản " + user.getId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Đã đăng nhập thành công với tài khoản " + user.get(User.ID), Toast.LENGTH_SHORT).show();
             }
         } else {
             requirePermission.launch(Manifest.permission.GET_ACCOUNTS);

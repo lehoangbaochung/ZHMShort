@@ -1,13 +1,11 @@
 package com.zitherharpmusic.zhmshort.ui.song;
 
-import androidx.annotation.NonNull;
-
-import com.zitherharpmusic.zhmshort.data.DataProvider;
-import com.zitherharpmusic.zhmshort.data.Language;
-import com.zitherharpmusic.zhmshort.data.Music;
+import com.zitherharpmusic.zhmshort.music.MusicProvider;
+import com.zitherharpmusic.zhmshort.music.MusicUtils;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.Music;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
-import com.zitherharpmusic.zhmshort.ui.video.VideoThumbnail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ public class Song extends Music {
     public List<Video> getVideos() {
         if (videos == null) {
             videos = new ArrayList<>();
-            for (Video video : DataProvider.getVideos()) {
+            for (Video video : MusicProvider.getVideos()) {
                 for (Song song : video.getSongs()) {
                     if (song.getId().equals(id)) {
                         videos.add(video);
@@ -40,7 +38,7 @@ public class Song extends Music {
     public List<Artist> getArtists() {
         if (artists == null) {
             artists = new ArrayList<>();
-            for (Artist artist : DataProvider.getArtists()) {
+            for (Artist artist : MusicProvider.getArtists()) {
                 for (String artistId : artistIds.split(SPLIT_CHARACTER)) {
                     if (artist.getId().equals(artistId)) {
                         artists.add(artist);
@@ -52,10 +50,6 @@ public class Song extends Music {
     }
 
     public String toString(Language language) {
-        StringBuilder artistNames = new StringBuilder();
-        for (Artist artist : getArtists()) {
-            artistNames.append(artist.getName(language)).append(SPLIT_CHARACTER);
-        }
-        return getName(language) + " - " + artistNames.toString().substring(0, artistNames.toString().length() - 1);
+        return getName(language) + " - " + MusicUtils.getNames(getArtists(), language);
     }
 }

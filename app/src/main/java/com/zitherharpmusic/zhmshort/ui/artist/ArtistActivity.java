@@ -4,14 +4,16 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
-import com.zitherharpmusic.zhmshort.data.Language;
-import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.MusicUtils;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.ui.user.User;
 import com.zitherharpmusic.zhmshort.util.ListenerUtils;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
@@ -47,21 +49,44 @@ public class ArtistActivity extends AppCompatActivity {
         // TODO: set button listeners
         User user = new User(this);
         if (user.isLoggedIn()) {
-            if (!user.getArtists().contains(artist)) {
+            if (!MusicUtils.contains(user.getArtists(), artist)) {
+                followButton.setTag(getString(R.string.follow));
                 followButton.setImageResource(R.drawable.ic_favourite_border_24);
             } else {
+                followButton.setTag(getString(R.string.unfollow));
                 followButton.setImageResource(R.drawable.ic_favourite_24);
             }
         }
-
+        followButton.setOnClickListener(v -> {
+            if (followButton.getTag().equals(getString(R.string.follow))) {
+                user.put(User.ARTIST_IDS, artist.getId());
+                followButton.setTag(getString(R.string.unfollow));
+                followButton.setImageResource(R.drawable.ic_favourite_24);
+                Toast.makeText(this, "Theo dõi thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setMessage("Bạn muốn bỏ theo dõi nghệ sĩ này?");
+                alertDialog.setPositiveButton("Cho tôi nghĩ lại", (dlg, which) -> {
+                    dlg.cancel();
+                    Toast.makeText(this, "Khá lắm bạn trẻ", Toast.LENGTH_SHORT).show();
+                });
+                alertDialog.setNegativeButton("Tâm tôi đã quyết", (dlg, which) -> {
+                    user.remove(User.ARTIST_IDS, artist.getId());
+                    followButton.setTag(getString(R.string.follow));
+                    followButton.setImageResource(R.drawable.ic_favourite_border_24);
+                    Toast.makeText(this, "Đã bỏ theo dõi", Toast.LENGTH_SHORT).show();
+                });
+                alertDialog.show();
+            }
+        });
         photo.setOnClickListener(v -> {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
             ImageView photoView = new ImageView(this);
+            photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             MainUtils.loadImage(this, photoView, artist.getPhotoUrl(PhotoQuality.LARGE));
             ad.setView(photoView);
             ad.show();
         });
-        //Toast.makeText(this, artist.getSongs() + "-" + artist.getVideos(), Toast.LENGTH_SHORT).show();
         shareButton.setOnClickListener(ListenerUtils.launchShareIntent(this, artist.getPlaylistUrl()));
         // TODO: others
         ArtistAdapter artistAdapter = new ArtistAdapter(this, artist);

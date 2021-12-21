@@ -9,9 +9,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zitherharpmusic.zhmshort.R;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
+import com.zitherharpmusic.zhmshort.ui.artist.ArtistListFragment;
 import com.zitherharpmusic.zhmshort.ui.empty.EmptyFragment;
 import com.zitherharpmusic.zhmshort.ui.item.ItemListFragment;
 import com.zitherharpmusic.zhmshort.ui.song.Song;
+import com.zitherharpmusic.zhmshort.ui.song.SongListFragment;
 import com.zitherharpmusic.zhmshort.ui.video.Video;
 import com.zitherharpmusic.zhmshort.ui.video.VideoGridFragment;
 
@@ -37,7 +39,7 @@ public class UserAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0:
                 if (songs.size() > 0) {
-                    return ItemListFragment.newInstance(songs);
+                    return SongListFragment.newInstance(songs);
                 } else {
                     return EmptyFragment.newInstance(fragment.getString(R.string.empty));
                 }
@@ -49,7 +51,7 @@ public class UserAdapter extends FragmentStateAdapter {
                 }
             case 2:
                 if (artists.size() > 0) {
-                    return ItemListFragment.newInstance(videos);
+                    return ArtistListFragment.newInstance(artists);
                 } else {
                     return EmptyFragment.newInstance(fragment.getString(R.string.empty));
                 }

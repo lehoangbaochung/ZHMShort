@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zitherharpmusic.zhmshort.data.Language;
+import com.zitherharpmusic.zhmshort.music.Language;
 import com.zitherharpmusic.zhmshort.R;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 

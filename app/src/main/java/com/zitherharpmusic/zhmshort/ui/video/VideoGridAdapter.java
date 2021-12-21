@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.util.ListenerUtils;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
 

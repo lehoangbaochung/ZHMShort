@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.Language;
-import com.zitherharpmusic.zhmshort.data.Music;
-import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.Music;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.artist.ArtistActivity;
 import com.zitherharpmusic.zhmshort.ui.song.Song;

@@ -28,4 +28,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return user;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

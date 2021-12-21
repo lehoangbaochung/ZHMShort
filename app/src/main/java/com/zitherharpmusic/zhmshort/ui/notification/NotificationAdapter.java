@@ -11,41 +11,51 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zitherharpmusic.zhmshort.R;
-import com.zitherharpmusic.zhmshort.data.Language;
-import com.zitherharpmusic.zhmshort.data.PhotoQuality;
+import com.zitherharpmusic.zhmshort.music.MusicUtils;
+import com.zitherharpmusic.zhmshort.music.Language;
+import com.zitherharpmusic.zhmshort.music.PhotoQuality;
 import com.zitherharpmusic.zhmshort.ui.artist.Artist;
 import com.zitherharpmusic.zhmshort.ui.user.User;
+import com.zitherharpmusic.zhmshort.ui.video.Video;
+import com.zitherharpmusic.zhmshort.ui.video.VideoFullscreenActivity;
+import com.zitherharpmusic.zhmshort.util.ListenerUtils;
 import com.zitherharpmusic.zhmshort.util.MainUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     private final Fragment fragment;
-    private final List<Artist> artists;
+    private final List<Video> videos;
 
     public NotificationAdapter(Fragment fragment, User user) {
         this.fragment = fragment;
-        this.artists = user.getArtists();
+        videos = new ArrayList<>();
+        for (Artist artist : user.getArtists()) {
+            videos.addAll(artist.getVideos());
+        }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_song_list, parent, false));
+                .inflate(R.layout.item_artist_list, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
-        holder.title.setText(String.format("%s đã tải lên một video mới", artist.getName(Language.VIETNAMESE)));
-        holder.subtitle.setText(artist.getName(Language.SIMPLIFIED_CHINESE));
-        MainUtils.loadImage(fragment.requireActivity(), holder.photo, artist.getPhotoUrl(PhotoQuality.SMALL));
+        Video video = videos.get(position);
+        holder.title.setText(String.format("%s đã tải lên một video mới", MusicUtils.getNames(video.getArtists(), Language.VIETNAMESE)));
+//        holder.subtitle.setText(String.format("\"%s\"", video.getName(Language.SIMPLIFIED_CHINESE)));
+        MainUtils.loadImage(fragment.requireActivity(), holder.photo, video.getArtists().get(0).getPhotoUrl(PhotoQuality.SMALL));
+        holder.itemView.setOnClickListener(ListenerUtils.launchActivity(
+                fragment.requireContext(), VideoFullscreenActivity.class, videos, position));
     }
 
     @Override
     public int getItemCount() {
-        return artists.size();
+        return videos.size();
     }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {

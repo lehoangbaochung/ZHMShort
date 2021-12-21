@@ -9,8 +9,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="80dp"
         android:layout_height="80dp"
+        app:cardCornerRadius="40dp"
         android:id="@+id/photo_view"
-        app:cardCornerRadius="0dp"
         android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -19,7 +19,7 @@
             android:id="@+id/photo"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
-            android:contentDescription="@string/title_user" />
+            android:contentDescription="@string/artists" />
 
     </androidx.cardview.widget.CardView>
 

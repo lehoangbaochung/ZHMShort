@@ -13,13 +13,11 @@ import androidx.fragment.app.Fragment;
 import com.zitherharpmusic.zhmshort.R;
 
 public class EmptyFragment extends Fragment {
+    private static String text;
 
     public static EmptyFragment newInstance(String text) {
-        Bundle args = new Bundle();
-        args.putString(EmptyFragment.class.getName(), text);
-        EmptyFragment fragment = new EmptyFragment();
-        fragment.setArguments(args);
-        return fragment;
+        EmptyFragment.text = text;
+        return new EmptyFragment();
     }
 
     @Nullable
@@ -32,6 +30,6 @@ public class EmptyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         TextView textView = view.findViewById(R.id.empty);
-        textView.setText(getArguments().getString(EmptyFragment.class.getName()));
+        textView.setText(text);
     }
 }
